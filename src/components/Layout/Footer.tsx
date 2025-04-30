@@ -12,10 +12,10 @@ const Footer = () => {
         }
     }
     return (
-        <footer style={styles.footer}>
-        <div>
-            <p>&copy; {(new Date()).getFullYear()} Cristián Camilo Rodríguez Montealegre. Todos los derechos reservados.</p>
-        </div>
+        <footer className="footer" style={styles.footer}>
+            <div className="footer__content">
+                <p className="footer__text">&copy; {(new Date()).getFullYear()} Cristián Camilo Rodríguez Montealegre. Todos los derechos reservados.</p>
+            </div>
         </footer>
     );
     }

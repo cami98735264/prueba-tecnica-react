@@ -163,14 +163,15 @@ const Header = ({ navbarOptions }: HeaderProps) => {
     }
 
     return (
-        <header>
-            <nav style={styles.navbar.container}>
-                <div style={styles.navbar.title.container}>
+        <header className="header">
+            <nav className="header__navbar" style={styles.navbar.container}>
+                <div className="header__title" style={styles.navbar.title.container}>
                     <Icon icon="fluent:box-24-filled" width="32" height="32" color={color.primary_content} />
-                    <h1 style={styles.navbar.title.text}><a style={styles.navbar.title.link} href="/">{navbarOptions.title}</a></h1>
+                    <h1 className="header__title-text" style={styles.navbar.title.text}><a className="header__title-link" style={styles.navbar.title.link} href="/">{navbarOptions.title}</a></h1>
                 </div>
                 {isMobile && (
                     <div 
+                        className="header__mobile-menu-button"
                         style={styles.navbar.links.mobileMenuButton}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
@@ -181,17 +182,19 @@ const Header = ({ navbarOptions }: HeaderProps) => {
                         />
                     </div>
                 )}
-                <ul style={styles.navbar.links.list}>
+                <ul className="header__links" style={styles.navbar.links.list}>
                     {navbarOptions.links.map((link, index) => (
                         <li 
                             key={index} 
+                            className="header__link-item"
                             style={styles.navbar.links.item}
                             onMouseEnter={() => !isMobile && link.dropdown && setIsDropdownVisible(true)}
                             onMouseLeave={() => !isMobile && link.dropdown && setIsDropdownVisible(false)}
                         >
                             {link.dropdown ? (
-                                <div>
+                                <div className="header__dropdown">
                                     <div 
+                                        className="header__dropdown-indicator"
                                         style={styles.navbar.links.dropdown.indicator}
                                         onClick={() => isMobile && setIsDropdownVisible(!isDropdownVisible)}
                                     >
@@ -207,11 +210,12 @@ const Header = ({ navbarOptions }: HeaderProps) => {
                                             }}
                                         />
                                     </div>
-                                    <div style={styles.navbar.links.dropdown.container}>
+                                    <div className="header__dropdown-menu" style={styles.navbar.links.dropdown.container}>
                                         {link.dropdown.map((dropdownItem, dropdownIndex) => (
                                             <a 
                                                 key={dropdownIndex} 
                                                 href={dropdownItem.url}
+                                                className="header__dropdown-item"
                                                 style={styles.navbar.links.dropdown.item}
                                                 onMouseEnter={(e) => {
                                                     e.currentTarget.style.backgroundColor = color.primary_light;
@@ -230,6 +234,7 @@ const Header = ({ navbarOptions }: HeaderProps) => {
                             ) : (
                                 <a 
                                     href={link.url} 
+                                    className="header__link"
                                     style={styles.navbar.links.urlElement}
                                     onClick={() => isMobile && setIsMobileMenuOpen(false)}
                                 >
@@ -239,7 +244,7 @@ const Header = ({ navbarOptions }: HeaderProps) => {
                             )}
                         </li>
                     ))}
-                    <li>
+                    <li className="header__theme-switcher">
                         <ThemeSwitcher />
                     </li>
                 </ul>

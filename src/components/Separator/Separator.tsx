@@ -13,7 +13,7 @@ const Separator = (props: { color: "primary" | "secondary"}) => {
         margin: "0",
     }
     return (
-        <div style={style} />
+        <div className={`separator separator--${props.color}`} style={style} />
     );
     }
 

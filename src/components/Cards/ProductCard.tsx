@@ -65,22 +65,22 @@ const ProductCard = ({ code, name, description, date, gridStyles }: ProductCardP
   };
 
   return (
-    <div style={styles.container}>
+    <div className="product-card" style={styles.container}>
       <Icon icon="fluent:box-48-regular" width="24" height="24" color={color.secondary} />
-      <div style={styles.content}>
-        <div style={styles.header}>
-          <div style={styles.codeContainer}>
-            <span style={styles.code}>[#] COD {code}</span>
-            <span style={styles.name}>x{name}</span>
+      <div className="product-card__content" style={styles.content}>
+        <div className="product-card__header" style={styles.header}>
+          <div className="product-card__code-container" style={styles.codeContainer}>
+            <span className="product-card__code" style={styles.code}>[#] COD {code}</span>
+            <span className="product-card__name" style={styles.name}>x{name}</span>
           </div>
-          <div style={styles.date}>
+          <div className="product-card__date" style={styles.date}>
             <Icon icon="mdi:calendar" width="16" height="16" color={color.copy_lighter} />
-            <span style={styles.dateText}>{date}</span>
+            <span className="product-card__date-text" style={styles.dateText}>{date}</span>
           </div>
         </div>
-        <div style={styles.description}>
+        <div className="product-card__description" style={styles.description}>
           <Icon icon="mdi:information" width="16" height="16" color={color.primary} />
-          <span style={styles.descriptionText}>{description}</span>
+          <span className="product-card__description-text" style={styles.descriptionText}>{description}</span>
         </div>
       </div>
     </div>

@@ -122,60 +122,63 @@ const UpdateProduct = () => {
 
     return (
         <Layout sectionTitle="Actualizar Producto" icon="mdi:pencil">
-            <form onSubmit={handleSubmit} style={styles.container}>
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Seleccionar Producto</label>
+            <form onSubmit={handleSubmit} className="update-product-page" style={styles.container}>
+                <div className="update-product-page__form-group" style={styles.formGroup}>
+                    <label className="update-product-page__label" style={styles.label}>
+                        Seleccionar producto
+                    </label>
                     <SelectInput
-                        placeholder="Seleccione un producto"
+                        placeholder="Selecciona un producto"
                         options={productOptions}
                         onChange={handleProductSelect}
                     />
                 </div>
-
                 {selectedProduct && (
                     <>
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Nombre del Producto</label>
+                        <div className="update-product-page__form-group" style={styles.formGroup}>
+                            <label className="update-product-page__label" style={styles.label}>
+                                Nombre del producto
+                            </label>
                             <input
+                                className="update-product-page__input"
                                 type="text"
                                 style={styles.input}
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                placeholder="Ingrese el nombre del producto"
                             />
                         </div>
-
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Descripción</label>
+                        <div className="update-product-page__form-group" style={styles.formGroup}>
+                            <label className="update-product-page__label" style={styles.label}>
+                                Descripción
+                            </label>
                             <input
+                                className="update-product-page__input"
                                 type="text"
                                 style={styles.input}
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                placeholder="Ingrese la descripción del producto"
                             />
                         </div>
-
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Cantidad</label>
+                        <div className="update-product-page__form-group" style={styles.formGroup}>
+                            <label className="update-product-page__label" style={styles.label}>
+                                Cantidad
+                            </label>
                             <input
+                                className="update-product-page__input"
                                 type="number"
+                                min="1"
                                 style={styles.input}
                                 value={formData.amount}
-                                onChange={(e) => setFormData({ ...formData, amount: parseInt(e.target.value) || 1 })}
-                                min="1"
+                                onChange={(e) => setFormData({ ...formData, amount: parseInt(e.target.value) })}
                             />
                         </div>
                     </>
                 )}
-
-                {error && <p style={styles.error}>{error}</p>}
-
-                <Separator color="secondary" />
-
-                <div style={styles.buttonContainer}>
+                {error && <div className="update-product-page__error" style={styles.error}>{error}</div>}
+                <div className="update-product-page__buttons" style={styles.buttonContainer}>
                     <button
                         type="submit"
+                        className="update-product-page__submit-button"
                         style={{ ...styles.button, ...styles.submitButton }}
                         disabled={!selectedProduct}
                     >
@@ -184,6 +187,7 @@ const UpdateProduct = () => {
                     </button>
                     <button
                         type="button"
+                        className="update-product-page__cancel-button"
                         style={{ ...styles.button, ...styles.cancelButton }}
                         onClick={() => navigate("/productos")}
                     >

@@ -102,40 +102,38 @@ const DeleteProduct = () => {
 
     return (
         <Layout sectionTitle="Eliminar Producto" icon="mdi:delete">
-            <form style={styles.container}>
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Seleccionar Producto</label>
+            <form onSubmit={handleDelete} className="delete-product-page" style={styles.container}>
+                <div className="delete-product-page__form-group" style={styles.formGroup}>
+                    <label className="delete-product-page__label" style={styles.label}>
+                        Seleccionar producto
+                    </label>
                     <SelectInput
-                        placeholder="Seleccione un producto"
+                        placeholder="Selecciona un producto"
                         options={productOptions}
                         onChange={handleProductSelect}
                     />
                 </div>
-
-                {selectedProductData && (
-                    <div style={styles.preview}>
-                        <p style={styles.warning}>
-                            <Icon icon="mdi:alert" width="20" height="20" style={{ verticalAlign: "middle", marginRight: "8px" }} />
-                            ¿Está seguro que desea eliminar este producto?
-                        </p>
-                        <ProductCard
-                            code={selectedProductData.cod.toString()}
-                            name={selectedProductData.name}
-                            description={selectedProductData.description}
-                            date={selectedProductData.createdAt}
-                        />
-                    </div>
+                {selectedProduct && (
+                    <>
+                        <div className="delete-product-page__warning" style={styles.warning}>
+                            ¿Estás seguro de que deseas eliminar este producto?
+                        </div>
+                        <div className="delete-product-page__preview" style={styles.preview}>
+                            <ProductCard
+                                code={selectedProduct.toString()}
+                                name={products.find(p => p.cod === selectedProduct)?.name || ""}
+                                description={products.find(p => p.cod === selectedProduct)?.description || ""}
+                                date={products.find(p => p.cod === selectedProduct)?.createdAt || ""}
+                            />
+                        </div>
+                    </>
                 )}
-
-                {error && <p style={styles.error}>{error}</p>}
-
-                <Separator color="secondary" />
-
-                <div style={styles.buttonContainer}>
+                {error && <div className="delete-product-page__error" style={styles.error}>{error}</div>}
+                <div className="delete-product-page__buttons" style={styles.buttonContainer}>
                     <button
-                        type="button"
+                        type="submit"
+                        className="delete-product-page__delete-button"
                         style={{ ...styles.button, ...styles.deleteButton }}
-                        onClick={handleDelete}
                         disabled={!selectedProduct}
                     >
                         <Icon icon="mdi:delete" width="20" height="20" />
@@ -143,6 +141,7 @@ const DeleteProduct = () => {
                     </button>
                     <button
                         type="button"
+                        className="delete-product-page__cancel-button"
                         style={{ ...styles.button, ...styles.cancelButton }}
                         onClick={() => navigate("/productos")}
                     >

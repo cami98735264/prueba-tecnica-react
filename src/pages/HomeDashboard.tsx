@@ -41,6 +41,7 @@ const AuditoriasContainer = ({ currentPage, selectedProduct, sortBy }: {
 
   const styles = {
     container: {
+      minHeight: "200px",
       maxHeight: "200px",
       overflowY: "auto" as React.CSSProperties["overflowY"],
       display: "flex",
@@ -71,7 +72,7 @@ const AuditoriasContainer = ({ currentPage, selectedProduct, sortBy }: {
   }
 
   return (
-    <div style={styles.container}>
+    <div className="auditorias-container" style={styles.container}>
       {sortedAuditories.map((auditory) => (
         <AuditoryCard
           key={auditory.id}
@@ -129,12 +130,13 @@ const AuditoriasPagination = ({ currentPage, setCurrentPage, selectedProduct }: 
   };
 
   return (
-    <div style={styles.pagination}>
-      <div style={styles.paginationText}>
+    <div className="auditorias-pagination" style={styles.pagination}>
+      <div className="auditorias-pagination__text" style={styles.paginationText}>
         Mostrando {Math.min(itemsPerPage, total)} resultados de {total}
       </div>
-      <div style={styles.paginationButtons}>
+      <div className="auditorias-pagination__buttons" style={styles.paginationButtons}>
         <button 
+          className="auditorias-pagination__button"
           style={styles.paginationButton}
           onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
@@ -142,6 +144,7 @@ const AuditoriasPagination = ({ currentPage, setCurrentPage, selectedProduct }: 
           <Icon icon="mdi:chevron-left" width="24" height="24" color={color.copy} />
         </button>
         <button 
+          className="auditorias-pagination__button"
           style={styles.paginationButton}
           onClick={() => setCurrentPage(Math.min(Math.ceil(total / itemsPerPage), currentPage + 1))}
           disabled={currentPage === Math.ceil(total / itemsPerPage)}
@@ -172,22 +175,12 @@ const HomeDashboard = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const productOptions = products.map(product => ({
-    value: product.name,
-    label: `[#] COD ${product.cod} - ${product.name}`
-  }));
-
   const sortOptions = [
     { value: "date_desc", label: "Fecha (más reciente)" },
     { value: "date_asc", label: "Fecha (más antigua)" },
     { value: "name_asc", label: "Nombre (A-Z)" },
     { value: "name_desc", label: "Nombre (Z-A)" }
   ];
-
-  const handleProductSelect = (value: string) => {
-    setSelectedProduct(value);
-    setAuditPage(1); // Reset pagination when product changes
-  };
 
   const styles = {
     stats: {
@@ -302,7 +295,7 @@ const HomeDashboard = () => {
 
   return (
     <Layout sectionTitle="Dashboard Principal" icon={"mdi:home"}>
-      <div style={styles.stats}>
+      <div className="dashboard-stats" style={styles.stats}>
         <StatsCard
           highlight={products.length.toString()}
           description="PRODUCTOS LISTADOS"
@@ -325,7 +318,7 @@ const HomeDashboard = () => {
           gridStyles={styles.statsProductOldest}
           iconSize={40}
         />
-        <div style={styles.auditoria}>
+        <div className="dashboard-auditoria" style={styles.auditoria}>
           <Subtitle icon="mdi:check-all">Auditoría de Productos</Subtitle>
           <Separator color="secondary" />
           <SelectInput 
@@ -344,10 +337,10 @@ const HomeDashboard = () => {
             selectedProduct={selectedProduct} 
           />
         </div>
-        <div style={styles.latestProducts}>
+        <div className="dashboard-latest-products" style={styles.latestProducts}>
           <Subtitle icon="mdi:clock-outline">Productos más numerosos</Subtitle>
           <Separator color="secondary" />
-          <div style={{ 
+          <div className="dashboard-products-grid" style={{ 
             display: "flex", 
             gap: "8px", 
             flexWrap: "wrap", 
@@ -363,7 +356,7 @@ const HomeDashboard = () => {
                 />
               ))
             ) : (
-              <div style={{
+              <div className="dashboard-products-empty" style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -377,12 +370,13 @@ const HomeDashboard = () => {
               </div>
             )}
           </div>
-          <div style={styles.pagination}>
-            <div style={styles.paginationText}>
+          <div className="dashboard-products-pagination" style={styles.pagination}>
+            <div className="dashboard-products-pagination__text" style={styles.paginationText}>
               Mostrando {productCountArray.length} resultados
             </div>
-            <div style={styles.paginationButtons}>
+            <div className="dashboard-products-pagination__buttons" style={styles.paginationButtons}>
               <button 
+                className="dashboard-products-pagination__button"
                 style={styles.paginationButton}
                 onClick={() => setProductsPage(Math.max(1, productsPage - 1))}
                 disabled={productsPage === 1}
@@ -390,6 +384,7 @@ const HomeDashboard = () => {
                 <Icon icon="mdi:chevron-left" width="24" height="24" color={color.copy} />
               </button>
               <button 
+                className="dashboard-products-pagination__button"
                 style={styles.paginationButton}
                 onClick={() => setProductsPage(Math.min(totalProductPages, productsPage + 1))}
                 disabled={productsPage === totalProductPages}

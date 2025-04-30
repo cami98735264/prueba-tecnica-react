@@ -11,7 +11,7 @@ const ThemeSwitcher = () => {
     };
 
     return (
-        <button
+        <button className="theme-switcher"
             onClick={handleThemeSwitch}
             style={{
                 background: color.secondary,
@@ -35,6 +35,7 @@ const ThemeSwitcher = () => {
             <Icon 
                 icon={theme === 'light' ? 'ph:moon-fill' : 'ph:sun-fill'} 
                 width="20" 
+                className="theme-switcher__icon"
                 height="20"
             />
             {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}

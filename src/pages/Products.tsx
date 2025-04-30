@@ -22,8 +22,8 @@ const Products = () => {
         { value: "name_desc", label: "Nombre (Z-A)" },
         { value: "amount_asc", label: "Cantidad (menor a mayor)" },
         { value: "amount_desc", label: "Cantidad (mayor a menor)" },
-        { value: "date_asc", label: "Fecha (más reciente)" },
-        { value: "date_desc", label: "Fecha (más antigua)" }
+        { value: "date_desc", label: "Fecha (más reciente)" },
+        { value: "date_asc", label: "Fecha (más antigua)" }
     ];
 
     const styles = {
@@ -64,8 +64,8 @@ const Products = () => {
             display: "flex",
             flexDirection: "column" as const,
             gap: "8px",
-            height: "100%",
-            flex: 1,
+            flex: "1 1 350px",
+            overflowY: "auto",
         },
         pagination: {
             display: "flex",
@@ -130,9 +130,9 @@ const Products = () => {
             case "amount_desc":
                 return b.amount - a.amount;
             case "date_asc":
-                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-            case "date_desc":
                 return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+            case "date_desc":
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
             default:
                 return 0;
         }
@@ -161,9 +161,10 @@ const Products = () => {
 
     return (
         <Layout sectionTitle="Lista de Productos" icon="fluent:box-24-filled">
-            <div style={styles.container}>
-                <div style={styles.searchContainer}>
+            <div className="products-page" style={styles.container}>
+                <div className="products-page__search" style={styles.searchContainer}>
                     <input
+                        className="products-page__search-input"
                         type="text"
                         placeholder="Ingresa el nombre de un producto..."
                         style={styles.searchInput}
@@ -171,10 +172,10 @@ const Products = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div style={styles.filterContainer}>
+                <div className="products-page__filters" style={styles.filterContainer}>
                     <Subtitle icon="mdi:sort">Ordenar por</Subtitle>
-                    <div style={styles.filterRow}>
-                        <div style={styles.filterSelect}>
+                    <div className="products-page__filter-row" style={styles.filterRow}>
+                        <div className="products-page__filter-select" style={styles.filterSelect}>
                             <SelectInput
                                 placeholder="Selecciona un orden"
                                 options={sortOptions}
@@ -183,7 +184,7 @@ const Products = () => {
                         </div>
                     </div>
                 </div>
-                <div style={styles.productsGrid}>
+                <div className="products-page__grid" style={styles.productsGrid}>
                     {currentProducts.map((product) => (
                         <ProductCard
                             key={product.cod}
@@ -194,12 +195,13 @@ const Products = () => {
                         />
                     ))}
                 </div>
-                <div style={styles.pagination}>
-                    <div style={styles.paginationText}>
+                <div className="products-page__pagination" style={styles.pagination}>
+                    <div className="products-page__pagination-text" style={styles.paginationText}>
                         Mostrando {currentProducts.length} resultados
                     </div>
-                    <div style={styles.paginationButtons}>
+                    <div className="products-page__pagination-buttons" style={styles.paginationButtons}>
                         <button
+                            className="products-page__pagination-button"
                             style={styles.paginationButton}
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                             disabled={currentPage === 1}
@@ -209,6 +211,7 @@ const Products = () => {
                         {getPageNumbers().map((pageNum) => (
                             <button
                                 key={pageNum}
+                                className={`products-page__pagination-number ${pageNum === currentPage ? 'products-page__pagination-number--active' : ''}`}
                                 style={{
                                     ...styles.pageNumber,
                                     ...(pageNum === currentPage ? styles.activePage : {})
@@ -219,6 +222,7 @@ const Products = () => {
                             </button>
                         ))}
                         <button
+                            className="products-page__pagination-button"
                             style={styles.paginationButton}
                             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                             disabled={currentPage === totalPages}

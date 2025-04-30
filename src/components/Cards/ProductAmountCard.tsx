@@ -29,11 +29,11 @@ const ProductAmountCard = ({ amount, icon = "fluent:box-48-regular", gridStyles,
   };
 
   return (
-    <div style={styles.container}>
+    <div className="product-amount-card" style={styles.container}>
       <Icon icon={icon} width="24" height="24" color={color.secondary} />
-      <div>
-        <p style={styles.amount}><b>x{amount}</b></p>
-        <p style={styles.text}>{text}</p>
+      <div className="product-amount-card__content">
+        <p className="product-amount-card__amount" style={styles.amount}><b>x{amount}</b></p>
+        <p className="product-amount-card__text" style={styles.text}>{text}</p>
       </div>
     </div>
   );

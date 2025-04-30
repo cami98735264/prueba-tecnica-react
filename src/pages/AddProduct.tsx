@@ -96,7 +96,7 @@ const AddProduct = () => {
             name: formData.name.trim(),
             description: formData.description.trim(),
             amount: formData.amount,
-            createdAt: new Date().toISOString().split('T')[0],
+            createdAt: new Date().toISOString(),
         };
 
         addProduct(newProduct);
@@ -105,47 +105,49 @@ const AddProduct = () => {
 
     return (
         <Layout sectionTitle="Añadir Producto" icon="mdi:plus">
-            <form onSubmit={handleSubmit} style={styles.container}>
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Nombre del Producto</label>
+            <form onSubmit={handleSubmit} className="add-product-page" style={styles.container}>
+                <div className="add-product-page__form-group" style={styles.formGroup}>
+                    <label className="add-product-page__label" style={styles.label}>
+                        Nombre del producto
+                    </label>
                     <input
+                        className="add-product-page__input"
                         type="text"
                         style={styles.input}
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Ingrese el nombre del producto"
                     />
                 </div>
-
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Descripción</label>
+                <div className="add-product-page__form-group" style={styles.formGroup}>
+                    <label className="add-product-page__label" style={styles.label}>
+                        Descripción
+                    </label>
                     <input
+                        className="add-product-page__input"
                         type="text"
                         style={styles.input}
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        placeholder="Ingrese la descripción del producto"
                     />
                 </div>
-
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Cantidad</label>
+                <div className="add-product-page__form-group" style={styles.formGroup}>
+                    <label className="add-product-page__label" style={styles.label}>
+                        Cantidad
+                    </label>
                     <input
+                        className="add-product-page__input"
                         type="number"
+                        min="1"
                         style={styles.input}
                         value={formData.amount}
-                        onChange={(e) => setFormData({ ...formData, amount: parseInt(e.target.value) || 1 })}
-                        min="1"
+                        onChange={(e) => setFormData({ ...formData, amount: parseInt(e.target.value) })}
                     />
                 </div>
-
-                {error && <p style={styles.error}>{error}</p>}
-
-                <Separator color="secondary" />
-
-                <div style={styles.buttonContainer}>
+                {error && <div className="add-product-page__error" style={styles.error}>{error}</div>}
+                <div className="add-product-page__buttons" style={styles.buttonContainer}>
                     <button
                         type="submit"
+                        className="add-product-page__submit-button"
                         style={{ ...styles.button, ...styles.submitButton }}
                     >
                         <Icon icon="mdi:plus" width="20" height="20" />
@@ -153,6 +155,7 @@ const AddProduct = () => {
                     </button>
                     <button
                         type="button"
+                        className="add-product-page__cancel-button"
                         style={{ ...styles.button, ...styles.cancelButton }}
                         onClick={() => navigate("/productos")}
                     >

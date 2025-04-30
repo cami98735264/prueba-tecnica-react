@@ -22,9 +22,9 @@ const Subtitle = ({ icon, children }: SubtitleProps) => {
     }
 
     return (
-        <div style={styles.subtitle.container}>
+        <div className="subtitle" style={styles.subtitle.container}>
             {icon && <Icon icon={icon} width="24" height="24" color={color.secondary} />}
-            <h2 style={styles.subtitle.text}>{children}</h2>
+            <h2 className="subtitle__text" style={styles.subtitle.text}>{children}</h2>
         </div>
     )
 }

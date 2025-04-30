@@ -60,17 +60,17 @@ const Layout = ({ children, sectionTitle, icon }: LayoutProps) => {
     },
   };
   return (
-    <div id="main-layout" style={styles.layout}>
+    <div id="main-layout" className="layout" style={styles.layout}>
       <Header navbarOptions={navbarOptions} />
-      <main style={styles.main}>
-        <div style={styles.sectionTitle.container}>
+      <main className="layout__main" style={styles.main}>
+        <div className="layout__section-title" style={styles.sectionTitle.container}>
           <Icon
             icon={icon || "mdi:alert-circle"}
             width="32"
             height="32"
             color={color.primary_light}
           />
-          <h2 style={styles.sectionTitle.text}>{sectionTitle}</h2>
+          <h2 className="layout__section-title-text" style={styles.sectionTitle.text}>{sectionTitle}</h2>
         </div>
         <Separator color="primary" />
         {children}

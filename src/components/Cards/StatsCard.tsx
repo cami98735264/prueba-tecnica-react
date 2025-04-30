@@ -1,4 +1,3 @@
-
 import { Icon } from "@iconify/react";
 import type { StatsCardProps, StatsCardStyles } from "../../types"
 import useColors from "../../hooks/useColors";
@@ -82,13 +81,13 @@ const StatsCard = ({ icon, highlight, description, gridStyles, iconSize, flexDir
         
     }
     return (
-        <div style={{... styles.card, ... gridStyles }}>
-            <div>
+        <div className="stats-card" style={{... styles.card, ... gridStyles }}>
+            <div className="stats-card__icon">
                 <Icon icon={icon} width={iconSize || 100} height={iconSize || 100} style={styles.icon}/>
             </div>
-            <div style={styles.content}>
-                <h2 style={styles.highlight}>{highlight}</h2>
-                <p style={styles.description}>{description}</p>
+            <div className="stats-card__content" style={styles.content}>
+                <h2 className="stats-card__highlight" style={styles.highlight}>{highlight}</h2>
+                <p className="stats-card__description" style={styles.description}>{description}</p>
             </div>
         </div>
     )

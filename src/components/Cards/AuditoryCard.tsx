@@ -36,17 +36,18 @@ const AuditoryCard = ({ icon, description, buttonIcon, buttonLabel }: AuditoryCa
     },
   };
   return (
-    <div style={styles.auditory}>
-      <div style={styles.auditoryContent}>
+    <div className="auditory-card" style={styles.auditory}>
+      <div className="auditory-card__content" style={styles.auditoryContent}>
         <Icon icon={icon} width="26" height="26" color={color.secondary} />
         <h3
+          className="auditory-card__description"
           style={styles.description}
           dangerouslySetInnerHTML={{ __html: description }}
         />
       </div>
-      <button style={styles.button}>
+      <button className="auditory-card__button" style={styles.button}>
         <Icon icon={buttonIcon} width="26" height="26" color="#fff" />
-        <span style={{ marginLeft: "8px" }}>{buttonLabel}</span>
+        <span className="auditory-card__button-label" style={{ marginLeft: "8px" }}>{buttonLabel}</span>
       </button>
     </div>
   );

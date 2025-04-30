@@ -25,12 +25,13 @@ const SelectInput = ({ placeholder, options, onChange }: SelectInputProps) => {
 
   return (
     <select 
+      className="select-input"
       style={styles.select}
       onChange={(e) => onChange?.(e.target.value)}
     >
       <option value="">{placeholder}</option>
       {options.map((option) => (
-        <option key={option.value} value={option.value}>
+        <option key={option.value} value={option.value} className="select-input__option">
           {option.label}
         </option>
       ))}
