@@ -63,24 +63,58 @@ const useProductStore = create<ProductStore>()(
             updateProduct: (cod, updatedProduct) => {
                 const oldProduct = get().products.find(p => p.cod === cod);
                 if (oldProduct) {
+                    const newProduct = { ...oldProduct, ...updatedProduct };
                     set((state) => ({
                         products: state.products.map((product) =>
-                            product.cod === cod ? { ...product, ...updatedProduct } : product
+                            product.cod === cod ? newProduct : product
                         )
                     }));
-                    // Add auditory entry
-                    useAuditoryStore.getState().addAuditory({
-                        productName: oldProduct.name,
-                        action: 'update',
-                        description: `El usuario actualizó el producto "<b>${oldProduct.name}</b>" el día "<b>${new Date().toLocaleString('es-ES', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        })}</b>"`
+
+                    // Create audit message based on what changed
+                    let changes = [];
+                    if (oldProduct.name !== newProduct.name) {
+                        changes.push(`el nombre de "<b>${oldProduct.name}</b>" a "<b>${newProduct.name}</b>"`);
+                    }
+                    if (oldProduct.description !== newProduct.description) {
+                        changes.push(`la descripción de "<b>${oldProduct.description}</b>" a "<b>${newProduct.description}</b>"`);
+                    }
+                    if (oldProduct.amount !== newProduct.amount) {
+                        changes.push(`la cantidad de <b>${oldProduct.amount}</b> a <b>${newProduct.amount}</b>`);
+                    }
+
+                    const timestamp = new Date().toLocaleString('es-ES', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
                     });
+
+                    let description;
+                    if (changes.length > 1) {
+                        // If multiple changes, format with commas and "y"
+                        const lastChange = changes.pop();
+                        description = `El usuario actualizó ${changes.join(", ")} y ${lastChange} del producto el día "<b>${timestamp}</b>"`;
+                    } else {
+                        description = `El usuario actualizó ${changes[0]} del producto el día "<b>${timestamp}</b>"`;
+                    }
+
+                    // Add auditory entry with detailed changes
+                    useAuditoryStore.getState().addAuditory({
+                        productName: newProduct.name,
+                        action: 'update',
+                        description
+                    });
+
+                    // If name changed, add an additional entry with old name for better filtering
+                    if (oldProduct.name !== newProduct.name) {
+                        useAuditoryStore.getState().addAuditory({
+                            productName: oldProduct.name,
+                            action: 'update',
+                            description
+                        });
+                    }
                 }
             },
             clearProducts: () => set({ products: [] }),

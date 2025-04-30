@@ -44,7 +44,7 @@ Un sistema web moderno para la gestión de productos, construido con React y Typ
   - Actualización automática
 - **Auditoría de Cambios**
   - Registro detallado de operaciones
-  - Filtrado por producto
+  - Filtrado por producto (actual y anterior)
   - Ordenamiento por nombre
   - Paginación de registros
 - **Productos más Numerosos**
@@ -60,10 +60,19 @@ Un sistema web moderno para la gestión de productos, construido con React y Typ
   - Tipo de operación
   - Detalles del cambio
 - **Trazabilidad**
-  - Historial completo
-  - Filtrado por producto
-  - Ordenamiento por nombre
-  - Exportación (preparado)
+  - Historial completo de cambios
+  - Registro detallado de modificaciones
+    - Cambios de nombre con valor anterior y nuevo
+    - Cambios de descripción con valor anterior y nuevo
+    - Cambios de cantidad con valor anterior y nuevo
+    - Registro múltiple para cambios de nombre
+  - Filtrado por nombre actual y anterior del producto
+  - Ordenamiento cronológico
+- **Optimización de Carga**
+  - Lazy loading de componentes
+  - Dynamic imports
+  - Suspense con fallback personalizado
+  - Animaciones de carga fluidas
 
 ## 🛠️ Stack Tecnológico
 
@@ -71,8 +80,8 @@ Un sistema web moderno para la gestión de productos, construido con React y Typ
 - **React 18**
   - Hooks personalizados
   - Componentes funcionales
+  - Lazy loading y Suspense
   - Optimización de rendimiento
-  - Manejo de efectos
 - **TypeScript 5**
   - Tipado estricto
   - Interfaces bien definidas
@@ -95,6 +104,11 @@ Un sistema web moderno para la gestión de productos, construido con React y Typ
   - Personalización de tamaño
   - Personalización de color
   - Optimización de carga
+- **Animaciones**
+  - Transiciones suaves
+  - Loading states
+  - Feedback visual
+  - Indicadores de progreso
 
 ## 🏗️ Arquitectura
 
@@ -105,6 +119,7 @@ src/
 │   ├── Cards/          # Componentes de tarjetas
 │   ├── Inputs/         # Componentes de entrada
 │   ├── Layout/         # Componentes de estructura
+│   ├── LoadingScreen/  # Componente de carga
 │   └── Subtitles/      # Componentes de títulos
 ├── hooks/              # Hooks personalizados
 │   └── useColors.ts    # Hook para gestión de colores
@@ -117,6 +132,8 @@ src/
 ├── stores/             # Estado global
 │   ├── products.ts     # Store de productos
 │   └── auditories.ts   # Store de auditoría
+├── styles/             # Estilos globales
+│   └── animations.css  # Animaciones globales
 └── types/              # Definiciones de tipos
     └── index.ts        # Tipos globales
 ```
@@ -165,6 +182,11 @@ src/
   - SelectInput
   - TextInput
   - NumberInput
+- **LoadingScreen**
+  - Animación de carga
+  - Indicador de progreso
+  - Feedback visual
+  - Diseño responsivo
 - **Pagination**
   - Navegación numérica
   - Botones prev/next
@@ -176,39 +198,49 @@ src/
 ### 1. Gestión de Estado con Zustand
 - **¿Por qué Zustand?**
   - API más simple que Redux
-    ```typescript
-    // Ejemplo de store
-    const useStore = create((set) => ({
-      count: 0,
-      increment: () => set((state) => ({ count: state.count + 1 })),
-    }));
-    ```
   - Menos boilerplate
-    - No requiere providers
-    - No necesita middleware básico
-    - Sintaxis más limpia
   - Mejor rendimiento
-    - Re-renders optimizados
-    - Actualizaciones selectivas
-    - Menor overhead
   - Soporte nativo para TypeScript
-    - Tipado completo
-    - Inferencia de tipos
-    - Autocompletado
   - Persistencia fácil
-    ```typescript
-    persist(
-      (set) => ({
-        // store implementation
-      }),
-      {
-        name: 'storage-key',
-        storage: createJSONStorage(() => localStorage),
-      }
-    )
-    ```
 
-### 2. Persistencia de Datos
+### 2. Optimización de Rendimiento
+- **Lazy Loading**
+  ```typescript
+  // App.tsx
+  const HomeDashboard = lazy(() => import("./pages/HomeDashboard"));
+  const Products = lazy(() => import("./pages/Products"));
+  ```
+- **Suspense con Fallback**
+  ```typescript
+  <Suspense fallback={<LoadingScreen />}>
+    <Routes>
+      <Route path="/" element={<HomeDashboard />} />
+      {/* ... más rutas ... */}
+    </Routes>
+  </Suspense>
+  ```
+- **Animaciones Optimizadas**
+  ```css
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  ```
+
+### 3. Sistema de Auditoría Mejorado
+- **Registro Detallado**
+  ```typescript
+  // Ejemplo de mensaje de auditoría
+  "El usuario actualizó el nombre de 'Producto A' a 'Producto B', 
+   la descripción de 'Desc A' a 'Desc B' y 
+   la cantidad de 5 a 10 del producto"
+  ```
+- **Doble Registro para Cambios de Nombre**
+  - Mantiene historial completo
+  - Permite filtrado por nombre anterior
+  - Mejora la trazabilidad
+
+### 4. Persistencia de Datos
 - **LocalStorage**
   - Elección sobre IndexedDB
     - Simplicidad de implementación
@@ -223,36 +255,7 @@ src/
     - Solo strings
     - Síncrono
 
-### 3. Sistema de Auditoría
-- **Implementación**
-  ```typescript
-  addAuditory: (auditory) => {
-    const newAuditory: Auditory = {
-      id: get().auditories.length > 0 
-        ? Math.max(...get().auditories.map(a => a.id)) + 1 
-        : 1,
-      timestamp: new Date().toLocaleString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      }),
-      ...auditory
-    };
-    set((state) => ({
-      auditories: [newAuditory, ...state.auditories]
-    }));
-  }
-  ```
-- **Características**
-  - Registro automático
-  - Timestamps precisos
-  - Formato localizado
-  - Trazabilidad completa
-
-### 4. Diseño Responsivo
+### 5. Diseño Responsivo
 - **Enfoque Mobile-first**
   ```typescript
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -274,7 +277,7 @@ src/
   - Componentes responsivos
   - Navegación optimizada
 
-### 5. Manejo de Fechas
+### 6. Manejo de Fechas
 - **Localización**
   ```typescript
   new Date().toLocaleString('es-ES', {
@@ -292,7 +295,7 @@ src/
   - Hora en formato 12h
   - Consistencia global
 
-### 6. Sistema de Temas
+### 7. Sistema de Temas
 - **¿Por qué un sistema de temas?**
   - Mejor experiencia de usuario
   - Accesibilidad mejorada
