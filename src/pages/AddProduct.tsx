@@ -4,7 +4,6 @@ import Layout from "../components/Layout/Layout";
 import useColors from "../hooks/useColors";
 import useProductStore from "../stores/products";
 import { Icon } from "@iconify/react";
-import Separator from "../components/Separator/Separator";
 
 const AddProduct = () => {
     const { color } = useColors();

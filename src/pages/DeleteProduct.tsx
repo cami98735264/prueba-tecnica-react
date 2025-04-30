@@ -4,7 +4,6 @@ import Layout from "../components/Layout/Layout";
 import useColors from "../hooks/useColors";
 import useProductStore from "../stores/products";
 import { Icon } from "@iconify/react";
-import Separator from "../components/Separator/Separator";
 import SelectInput from "../components/Inputs/SelectInput";
 import ProductCard from "../components/Cards/ProductCard";
 
@@ -95,10 +94,6 @@ const DeleteProduct = () => {
         removeProduct(selectedProduct);
         navigate("/productos");
     };
-
-    const selectedProductData = selectedProduct 
-        ? products.find(p => p.cod === selectedProduct)
-        : null;
 
     return (
         <Layout sectionTitle="Eliminar Producto" icon="mdi:delete">
