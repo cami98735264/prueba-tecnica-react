@@ -87,8 +87,6 @@ export interface SubtitleStyles {
 export interface AuditoryCardProps {
     icon: string;
     description: string;
-    buttonIcon: string;
-    buttonLabel: string;
 }
 
 export interface ProductAmountCardProps {

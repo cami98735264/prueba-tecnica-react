@@ -26,16 +26,12 @@ const AuditoriasContainer = ({ currentPage, selectedProduct, sortBy }: {
 
   const sortedAuditories = [...auditories].sort((a, b) => {
     switch (sortBy) {
-      case "date_desc":
-        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-      case "date_asc":
-        return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
       case "name_asc":
         return a.description.localeCompare(b.description);
       case "name_desc":
         return b.description.localeCompare(a.description);
       default:
-        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+        return b.description.localeCompare(a.description);
     }
   });
 
@@ -78,8 +74,6 @@ const AuditoriasContainer = ({ currentPage, selectedProduct, sortBy }: {
           key={auditory.id}
           icon="mdi:user"
           description={auditory.description}
-          buttonIcon="mdi:eye"
-          buttonLabel="Revisar"
         />
       ))}
     </div>
@@ -95,7 +89,7 @@ const AuditoriasPagination = ({ currentPage, setCurrentPage, selectedProduct }: 
   const itemsPerPage = 4;
   const { getAuditories, getAuditoriesByProduct } = useAuditoryStore();
 
-  const { total } = selectedProduct
+  const { auditories, total } = selectedProduct
     ? getAuditoriesByProduct(selectedProduct, currentPage, itemsPerPage)
     : getAuditories(currentPage, itemsPerPage);
 
@@ -132,7 +126,7 @@ const AuditoriasPagination = ({ currentPage, setCurrentPage, selectedProduct }: 
   return (
     <div className="auditorias-pagination" style={styles.pagination}>
       <div className="auditorias-pagination__text" style={styles.paginationText}>
-        Mostrando {Math.min(itemsPerPage, total)} resultados de {total}
+        Mostrando {auditories.length} resultados de {total}
       </div>
       <div className="auditorias-pagination__buttons" style={styles.paginationButtons}>
         <button 
@@ -176,8 +170,6 @@ const HomeDashboard = () => {
   }, []);
 
   const sortOptions = [
-    { value: "date_desc", label: "Fecha (más reciente)" },
-    { value: "date_asc", label: "Fecha (más antigua)" },
     { value: "name_asc", label: "Nombre (A-Z)" },
     { value: "name_desc", label: "Nombre (Z-A)" }
   ];
@@ -321,11 +313,24 @@ const HomeDashboard = () => {
         <div className="dashboard-auditoria" style={styles.auditoria}>
           <Subtitle icon="mdi:check-all">Auditoría de Productos</Subtitle>
           <Separator color="secondary" />
-          <SelectInput 
-            placeholder="Ordenar por"
-            options={sortOptions}
-            onChange={setAuditSortBy}
-          />
+          <div style={{ display: "flex", gap: "8px" }}>
+            <SelectInput 
+              placeholder="Filtrar por producto"
+              options={[
+                { value: "", label: "Todos los productos" },
+                ...products.map(product => ({
+                  value: product.name,
+                  label: product.name
+                }))
+              ]}
+              onChange={setSelectedProduct}
+            />
+            <SelectInput 
+              placeholder="Ordenar por"
+              options={sortOptions}
+              onChange={setAuditSortBy}
+            />
+          </div>
           <AuditoriasContainer 
             currentPage={auditPage} 
             selectedProduct={selectedProduct} 
@@ -372,7 +377,7 @@ const HomeDashboard = () => {
           </div>
           <div className="dashboard-products-pagination" style={styles.pagination}>
             <div className="dashboard-products-pagination__text" style={styles.paginationText}>
-              Mostrando {productCountArray.length} resultados
+              Mostrando {productCountArray.length} resultados de {Object.keys(productCounts).length}
             </div>
             <div className="dashboard-products-pagination__buttons" style={styles.paginationButtons}>
               <button 

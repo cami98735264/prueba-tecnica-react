@@ -2,7 +2,7 @@ import useColors from "../../hooks/useColors";
 import { Icon } from "@iconify/react";
 import { AuditoryCardProps } from "../../types";
 
-const AuditoryCard = ({ icon, description, buttonIcon, buttonLabel }: AuditoryCardProps) => {
+const AuditoryCard = ({ icon, description }: AuditoryCardProps) => {
   const { color } = useColors();
 
   const styles = {
@@ -10,16 +10,6 @@ const AuditoryCard = ({ icon, description, buttonIcon, buttonLabel }: AuditoryCa
       fontSize: "var(--font-size-medium)",
       color: color.copy,
       fontWeight: 400,
-    },
-    button: {
-      backgroundColor: color.primary,
-      border: "none",
-      borderRadius: "4px",
-      padding: "8px",
-      color: "#fff",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
     },
     auditory: {
       border: `2px solid ${color.primary_light}`,
@@ -45,10 +35,6 @@ const AuditoryCard = ({ icon, description, buttonIcon, buttonLabel }: AuditoryCa
           dangerouslySetInnerHTML={{ __html: description }}
         />
       </div>
-      <button className="auditory-card__button" style={styles.button}>
-        <Icon icon={buttonIcon} width="26" height="26" color="#fff" />
-        <span className="auditory-card__button-label" style={{ marginLeft: "8px" }}>{buttonLabel}</span>
-      </button>
     </div>
   );
 };

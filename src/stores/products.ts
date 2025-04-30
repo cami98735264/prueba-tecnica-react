@@ -29,7 +29,10 @@ const useProductStore = create<ProductStore>()(
                 useAuditoryStore.getState().addAuditory({
                     productName: product.name,
                     action: 'add',
-                    description: `El usuario añadió el producto "<b>${product.name}</b>" a las "<b>${new Date().toLocaleString('es-ES', {
+                    description: `El usuario añadió el producto "<b>${product.name}</b>" el día "<b>${new Date().toLocaleString('es-ES', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
                         hour: '2-digit',
                         minute: '2-digit',
                         hour12: true
@@ -46,7 +49,10 @@ const useProductStore = create<ProductStore>()(
                     useAuditoryStore.getState().addAuditory({
                         productName: product.name,
                         action: 'delete',
-                        description: `El usuario eliminó el producto "<b>${product.name}</b>" a las "<b>${new Date().toLocaleString('es-ES', {
+                        description: `El usuario eliminó el producto "<b>${product.name}</b>" el día "<b>${new Date().toLocaleString('es-ES', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
                             hour: '2-digit',
                             minute: '2-digit',
                             hour12: true
@@ -66,7 +72,10 @@ const useProductStore = create<ProductStore>()(
                     useAuditoryStore.getState().addAuditory({
                         productName: oldProduct.name,
                         action: 'update',
-                        description: `El usuario actualizó el producto "<b>${oldProduct.name}</b>" a las "<b>${new Date().toLocaleString('es-ES', {
+                        description: `El usuario actualizó el producto "<b>${oldProduct.name}</b>" el día "<b>${new Date().toLocaleString('es-ES', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
                             hour: '2-digit',
                             minute: '2-digit',
                             hour12: true

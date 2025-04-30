@@ -65,7 +65,7 @@ const Products = () => {
             flexDirection: "column" as const,
             gap: "8px",
             flex: "1 1 350px",
-            overflowY: "auto",
+            overflowY: "auto" as React.CSSProperties["overflowY"],
         },
         pagination: {
             display: "flex",
@@ -185,15 +185,30 @@ const Products = () => {
                     </div>
                 </div>
                 <div className="products-page__grid" style={styles.productsGrid}>
-                    {currentProducts.map((product) => (
-                        <ProductCard
-                            key={product.cod}
-                            code={product.cod.toString()}
-                            name={`${product.amount} ${product.name}`}
-                            description={product.description}
-                            date={product.createdAt}
-                        />
-                    ))}
+                    {currentProducts.length > 0 ? (
+                        currentProducts.map((product) => (
+                            <ProductCard
+                                key={product.cod}
+                                code={product.cod.toString()}
+                                name={`${product.amount} ${product.name}`}
+                                description={product.description}
+                                date={product.createdAt}
+                            />
+                        ))
+                    ) : (
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flex: 1,
+                            color: color.copy_light,
+                            fontSize: "var(--font-size-small)",
+                            textAlign: "center",
+                            padding: "20px",
+                        }}>
+                            {searchTerm ? "No se encontraron productos que coincidan con la búsqueda" : "No hay productos registrados en el sistema"}
+                        </div>
+                    )}
                 </div>
                 <div className="products-page__pagination" style={styles.pagination}>
                     <div className="products-page__pagination-text" style={styles.paginationText}>
