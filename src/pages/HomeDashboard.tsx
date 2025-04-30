@@ -307,6 +307,7 @@ const HomeDashboard = () => {
           highlight={oldestProduct?.name || "N/A"}
           description="PRODUCTO MÁS ANTIGUO"
           icon="ion:timer"
+          textSize="small"
           gridStyles={styles.statsProductOldest}
           iconSize={40}
         />
