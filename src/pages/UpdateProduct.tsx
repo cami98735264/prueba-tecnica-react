@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout/Layout";
 import useColors from "../hooks/useColors";
 import useProductStore from "../stores/products";
 import { Icon } from "@iconify/react";
-import Separator from "../components/Separator/Separator";
 import SelectInput from "../components/Inputs/SelectInput";
 
 const UpdateProduct = () => {

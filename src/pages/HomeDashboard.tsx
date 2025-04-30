@@ -158,7 +158,7 @@ const HomeDashboard = () => {
   const [auditPage, setAuditPage] = useState(1);
   const [productsPage, setProductsPage] = useState(1);
   const [auditSortBy, setAuditSortBy] = useState("");
-  const [productsSortBy, setProductsSortBy] = useState("");
+  const [productsSortBy] = useState("");
 
   useEffect(() => {
     const handleResize = () => {
